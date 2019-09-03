@@ -1,0 +1,189 @@
+a.commanderlink {
+  color: black;
+  font-size: 32px;
+}
+
+a.adsearch {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.commanderbutton {
+    margin: 30px;
+    text-align: center;
+    width: 10%;
+    background: red;
+    color: white;
+  }
+div.search-container{
+  width: 100%;
+  margin: 30px;
+  text-align: center;
+}
+
+div.search-container input{
+  width: 10%;
+  border: 1px solid grey;
+  box-sizing: border-box;
+  padding: 10px 5px;
+}
+
+div.search-container ul{
+  list-style-type: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+div.search-container ul::before{
+  content: "";
+}
+
+div.search-container li{
+  width: 10%;
+  display: table;
+  margin: 0px auto 0px auto;
+  text-align: left;
+  border: 1px solid grey;
+  padding: 10px 5px;
+  cursor: pointer;
+}
+
+div.search-container li:hover{
+  background-color: rgba(128, 128, 128, 0.20);
+}
+
+div.tooltip {
+    position: relative;
+  }
+
+div.tooltip span{
+    position: absolute;
+    display: none;
+    visibility: visible;
+    }
+
+div.tooltip:hover span{
+    display:block;
+    overflow:visible;
+    visibility: visible;
+    position: absolute;
+    z-index: 27;
+    }
+
+.edhlink {
+    color: black;
+    font-size: 40px;
+  }
+
+.flex-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 800px;
+  }
+
+  .login-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 300px;
+  }
+
+.decklist-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+  }
+
+.samplehand-container{
+    display: flex;
+    background-color: black;
+    flex-direction: row;
+    align-items: center;
+    width: 400px;
+    height: 200px;
+}
+
+img.cardhover{
+  width: 292px;
+  height: 408px;
+}
+.image {
+    width: 20%;
+  }
+div.tooltip span img {
+  position: absolute;
+  margin-left: 130px;
+  z-index: 999;
+}
+ul.nav{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+li.nav {
+  float: left;
+}
+
+li.login {
+  float: right;
+}
+
+li.login a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li.login p {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+li.login a:hover:not(.active) {
+  background-color: #111;
+}
+
+li.nav a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li.nav a:hover:not(.active) {
+  background-color: #111;
+}
+
+.mana_symbols{
+  width: 15px;
+  height: 15px;
+}
+
+.sortby{
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  width: 300px;
+  border-style: solid;
+}
+
+.active {
+  background-color: #4CAF50;
+}
