@@ -27,16 +27,8 @@ export class Login extends Component {
       headers: { 'content-type': 'application/json' },
       method: 'POST',
       body: JSON.stringify(accountInput)
-    })/*.
-    then(resp => {
-      return resp.json();
-   })
-   .then(data => {
-    console.log(req.user.username);
-    data = data.username;
-    this.setState({ user: data });
-    localStorage.setItem('user', data); 
-} )*/};
+    })
+  };
 
   
   makeAccount = () => {
