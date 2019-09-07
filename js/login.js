@@ -13,7 +13,7 @@ export class Login extends Component {
       items: [],
       suggestions:[],
       text: "",
-      user: user
+      user: ""
     };
   }
 
@@ -67,10 +67,52 @@ export class Login extends Component {
     });
   } 
 
+  // This function sends a GET request to the server for the current saved User and then recieves and stores the User in the state.
+
+  getUser = () => {
+    return fetch('/user', {
+      method: 'GET'
+    })
+    .then(resp => {
+      return resp.json();
+    })
+    .then(data => {
+      data = data.username;
+      this.setState({ user: data})
+    });
+  }
+
+  // This function makes sure that the getUser() function runs every time a page is loaded.
+
+  componentDidMount() {
+    this.getUser();
+  }
+
+  // This function sends a GET request to the server to logout the current User, it only works if there is a User saved in the state.
+
+  logout = () => {
+    if (!this.state.user){
+      return;
+    }
+    return fetch('/logout', {
+      method: 'GET',
+    })
+    .then(res => res.text())
+    .then(res => console.log(res))
+  }
+
   // HTML for the component, including smaller HTML components and their corresponding functions listed above. This component contains all information that will
   // populate the page, therefore the layout of the Login page is all below.
 
   render() {
+    
+    // If there is a User saved in the state, change the Login/Register button to a Logout button.
+
+    var userButton = "Logout";
+    if (!this.state.user){
+      userButton = "Login/Register"
+    }
+
     return (
       <div>
         <ul className='nav'>
@@ -78,7 +120,7 @@ export class Login extends Component {
           <li className = 'nav'><a href="/cardsearch">Card Search</a></li>
           <li className = 'nav'><a href="/decklist">Decklist</a></li>
           <li className = 'nav'><a href="/commander">Commander</a></li>
-          <li className = 'login'><a class="active" href="/loginpage">Login/Register</a></li>
+          <li className = 'login'><a class="active" href="/loginpage" onClick={() => this.logout()}>{userButton}</a></li>
           <li className = 'login'><p>Current User: {this.state.user}</p></li>
         </ul>
         <div className="login-container">

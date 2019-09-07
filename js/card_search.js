@@ -14,7 +14,7 @@ export class CardSearch extends Component {
       items: [],
       suggestions: [],
       text: "",
-      user: user
+      user: ""
     };
   }
 
@@ -120,9 +120,50 @@ export class CardSearch extends Component {
     );
   }
 
+  // This function sends a GET request to the server for the current saved User and then recieves and stores the User in the state.
+
+  getUser = () => {
+    return fetch('/user', {
+      method: 'GET'
+    })
+    .then(resp => {
+      return resp.json();
+    })
+    .then(data => {
+      data = data.username;
+      this.setState({ user: data})
+    });
+  }
+
+  // This function makes sure that the getUser() function runs every time a page is loaded.
+
+  componentDidMount() {
+    this.getUser();
+  }
+
+  // This function sends a GET request to the server to logout the current User, it only works if there is a User saved in the state.
+
+  logout = () => {
+    if (!this.state.user){
+      return;
+    }
+    return fetch('/logout', {
+      method: 'GET',
+    })
+    .then(res => res.text())
+    .then(res => console.log(res))
+  }
+
   // Create ReactTable columns with Name, Mana Cost, Card Type, TCG Price, and Add to Deck in order to display card information once gathered from the Scryfall API.
 
   render() {
+
+    // If there is a User saved in the state, change the Login/Register button to a Logout button.
+
+    var userButton = "Logout";
+    if (!this.state.user){
+       userButton = "Login/Register"
+    }
     const { text } = this.state;
     const columns = [
       {
@@ -194,7 +235,7 @@ export class CardSearch extends Component {
           <li className="nav"><a class="active" href="/cardsearch">Card Search</a></li>
           <li className="nav"><a href="/decklist">Decklist</a></li>
           <li className="nav"><a href="/commander">Commander</a> </li>
-          <li className = 'login'><a href="/loginpage">Login/Register</a></li>
+          <li className = 'login'><a href="/loginpage" onClick={() => this.logout()}>{userButton}</a></li>
           <li className = 'login'><p>Current User: {this.state.user}</p></li>
         </ul>
         <a className = "adsearch" href="/advancedsearch">Advanced Search</a>
