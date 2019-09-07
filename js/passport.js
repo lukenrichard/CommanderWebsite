@@ -7,11 +7,11 @@ var mysql = require('mysql');
 
 // Connect to mySQL server.
 
-var con = mysql.createConnection ({
-    host: 'localhost',
-    user: 'root',
-    password: 'pass9word3',
-    database: 'testdb'
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "luke",
+    password: "pass9word3",
+    database: "DB"
 });
 
   // Allow serializeUser and deserializeUser functions to be accessible from outside this file.

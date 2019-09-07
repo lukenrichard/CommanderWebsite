@@ -42,9 +42,9 @@ app.use(passport.session());
 
 var con = mysql.createConnection({
   host: "localhost",
-  user: "root",
+  user: "luke",
   password: "pass9word3",
-  database: "testdb"
+  database: "DB"
 });
 
 con.connect(function(err) {
