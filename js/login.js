@@ -1,3 +1,5 @@
+// This component is used to populate the Login page which allows the User to login to their specific library of cards with the proper credentials.
+
 import React, { Component } from "react";
 import "../styles.css";
 import "react-table/react-table.css";
@@ -5,7 +7,6 @@ import "react-table/react-table.css";
 export class Login extends Component {
   constructor(props) {
     super(props);
-    const user = localStorage.getItem('user');
     this.state = {
       accounts: [],
       imagearray: [],
@@ -16,7 +17,12 @@ export class Login extends Component {
     };
   }
 
+  // This function takes the User input of username and password and sends it to the server in the form of a POST request.
+
   loginAccount = () => {
+
+    // Gather username and password from User input.
+
     const username = String(document.getElementById("username").value);
     const password = String(document.getElementById("password").value);
     var accountInput = {
@@ -30,15 +36,25 @@ export class Login extends Component {
     })
   };
 
-  
+  // This function allows unregistered users to create a new account.
+
   makeAccount = () => {
+
+    // Gather username, password, and password check from User input.
+
     const username = String(document.getElementById("makeusername").value);
     const password = String(document.getElementById("makepassword").value);
     const reppassword = String(document.getElementById("reppass").value);
+
+    // If the passwords do not match, give error and do nothing.
+
     if (password != reppassword){
       console.log("Passwords entered do not match.")
       return;
     }
+
+    // Reload window and send POST request to server with new username and password information.
+
     window.location.reload();
     var accountInput = {
       username : username,
@@ -51,6 +67,8 @@ export class Login extends Component {
     });
   } 
 
+  // HTML for the component, including smaller HTML components and their corresponding functions listed above. This component contains all information that will
+  // populate the page, therefore the layout of the Login page is all below.
 
   render() {
     return (

@@ -1,3 +1,5 @@
+// This component is used to generate the mana symbol images from the syntax given by the Scryfall API to make it more visually appealing for the User.
+
 import React, { Component } from "react";
 import "../styles.css";
 
@@ -5,14 +7,20 @@ export class ManaGenerator extends Component {
     constructor(props) {
       super(props);
     }
-
+ 
     render() {
+
+        // Obtain mana cost information from the props and change string to allow edge cases to work.
+
         var manaString = String(this.props.mana);
         manaString = manaString.replace(/{/g, "");
         manaString = manaString.replace(/}/g, " ");
         var mana = [];
         mana = manaString.split(' ');
         mana.pop();
+
+        // For every character in the mana string, if the character matches with one of the characters below, replace it with the corresponding image.
+
         for (var i=0; i<mana.length; i++){
             if (mana[i] == 'G') {
                 mana[i] = "./pictures/Mana_G.png"
@@ -59,8 +67,10 @@ export class ManaGenerator extends Component {
             else if (mana[i] == '9') {
                 mana[i]="./pictures/Mana_9.svg"
             }
-
         }
+
+        // Once all characters in the mana cost have been replaced, display all images.
+
         return(
             <div>
                 {mana.map((item) => <img className="mana_symbols" src={item}/>)}

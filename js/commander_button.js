@@ -1,11 +1,11 @@
+// This component is used to display random Commander cards for the User at the press of a button. They can then use this random Commander card to build their deck around.
+
 import React, { Component } from "react";
 import "../styles.css";
-
 
 export class CommanderButton extends Component {
   constructor(props) {
     super(props);
-    const user = localStorage.getItem('user');
     this.state = {
       commander: null,
       image: null,
@@ -17,6 +17,8 @@ export class CommanderButton extends Component {
       user: user
     };
   }
+
+  // These color search functions change the boolean value associated with each color to ensure that the User can only populate Commanders of their desired color.
 
   greenSearch() {
     var greenVal = Boolean(this.state.green);
@@ -48,8 +50,13 @@ export class CommanderButton extends Component {
     this.setState({black: blackVal})
   }
 
+  // This function puts the Commander search query together for the Scryfall API and then gathers and stores the card name and image URL in the state.
+
   getCommander = () => {
     var searchString = String("");
+
+    // If the User specified any colors, ensure that the User can only see Commander cards of those colors. 
+
     if (this.state.green){
       var searchString = searchString + "g";
     }
@@ -65,6 +72,9 @@ export class CommanderButton extends Component {
     if (this.state.black){
       var searchString = searchString + "b";
     }
+
+    // Put together query, send query to Scryfall for desired Commander card, then store card name and image URL into state.
+
     fetch("https://api.scryfall.com/cards/random?q=is%3Acommander+c%3A" + searchString)
       .then(resp => {
         return resp.json();
@@ -79,14 +89,27 @@ export class CommanderButton extends Component {
 
   render() {
     var commander = (this.state.commander);
+
+    // If a Commander card has been gathered from the Scryfall API, show "Congratulations" message.
+
     if (commander != null) {
       var showStatement = "Congratulations! This link will help you build your deck:"
     }
+
+    // Change syntax of Commander card name edge cases to be more friendly to EDHrec links.
+
     commander = String(commander);
     commander = commander.split(" //");
     commander = commander[0].replace(/, /g, "-");
     commander = commander.replace(/ /g, "-");
+
+    // Create link to deck builder website with random Commander Card as focus.
+
     var commanderLink = "https://edhrec.com/commanders/" + commander;
+
+    // HTML for the component, including smaller HTML components and their corresponding functions listed above. This component contains all information that will
+    // populate the page, therefore the layout of the Commander Button page is all below. 
+
     return (
       <body className="commanderbackground">
         <ul className='nav'>

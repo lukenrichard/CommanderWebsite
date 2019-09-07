@@ -1,3 +1,6 @@
+// This component is used to populate a ReactTable with the library of cards specific for the logged in User. From this component, they can see the cards that they have
+// added to their library, choose to delete cards from their library, and also draw a sample hand from the library of cards.
+
 import React, { Component } from "react";
 import ReactTable from "react-table";
 import "../styles.css";
@@ -7,7 +10,6 @@ import "react-table/react-table.css";
 export class DeckList extends Component {
   constructor(props) {
     super(props);
-    var user = localStorage.getItem('user');
     this.state = {
       array: [],
       imagearray: [],
@@ -17,6 +19,9 @@ export class DeckList extends Component {
       user: user
     };
   }
+
+  // This function sends a GET request to the server to obtain all cards from cards table, then filters those cards to ensure that only the User's specific cards are stored in
+  // the state.
 
   retrieveCards = () => {
     return fetch('/cards', {
@@ -31,6 +36,8 @@ export class DeckList extends Component {
     });
   };
 
+  // This function sends a DELETE request to the server to delete the desired card from the cards table.
+
   removeCards(name) {
     var cardInput = {
       "name" : name,
@@ -44,12 +51,21 @@ export class DeckList extends Component {
     .then(res => console.log(res))
   }
 
+  // This function takes seven random cards from the entire User specific library of cards to allow the User to test and see if they have the correct balance of card types
+  // in their stored library. It displays these cards in the form of their images.
+
   generateHand = () => {
     var handArray = [];
     var imageArray = [];
     var image;
+
+    // Grab User specific library of cards from the state and sort randomly.
+
     handArray = this.state.array;
     handArray.sort(() => Math.random() - 0.5);
+
+    // Pop element off of randomly sorted card array and push that image to the state to store. Repeat seven times.
+
     for (var i=0; i<7; i++){
       if (handArray.length === 0){
         break;
@@ -59,6 +75,9 @@ export class DeckList extends Component {
       imageArray.push(image);
       this.setState({imagearray: imageArray});
     }
+
+    // Repopulate state with all cards in the User's library.
+
     return fetch('/cards', {
       method: 'GET'
     })
@@ -71,6 +90,8 @@ export class DeckList extends Component {
     }); 
     
   }
+
+  // Send GET request to server to get the currently logged in User then save in state.
 
   getUser = () => {
     return fetch('/user', {
@@ -86,13 +107,21 @@ export class DeckList extends Component {
   }
 
   render() {
-   
+  
+      // Get the username of the User logged in.
+
       this.getUser();
+
+      // Create ReactTable columns with Name, Mana Cost, Card Type, TCG Price, and Delete Card in order to display card information once gathered from the Scryfall API.
+
       const columns = [
       {
           Header: "Name",
           accessor: "name",
           width: 200,
+
+          // Cell rendering used for the Name column to provide User with a Card Tooltip when hovering their mouse over a card. 
+
           Cell: row => (
             <div className="tooltip">{row.original.name}
               <span><img className="cardhover" src={row.original.imageurl} /></span>
@@ -103,6 +132,9 @@ export class DeckList extends Component {
           Header: "Mana Cost",
           accessor: "manacost",
           width: 100,
+
+          // Cell rendering used for the Mana Cost column to change API mana cost syntax to a visual, image themed mana cost.
+
           Cell: row => (
             <ManaGenerator mana={row.original.manacost}/>
           )
@@ -116,19 +148,30 @@ export class DeckList extends Component {
           Header: "TCG Price",
           accessor: "tcgprice",
           width: 100, 
-            Cell: row => (
-              <a className="tcgprice" href={row.original.purchaseurl}>{row.original.tcgprice}</a>
-            ) 
+
+          // Cell rendering used for the TCG Price column to provide Users with a link straight to a popular Trading Card Game website to purchase desired card.
+
+          Cell: row => (
+            <a className="tcgprice" href={row.original.purchaseurl}>{row.original.tcgprice}</a>
+          ) 
       },
       {
         Header: "Delete Card",
         accessor: "",
         width: 180, 
-          Cell: row => (
-            <button onClick={() => this.removeCards(row.original.name)}>Remove from Decklist</button>
-          ) 
+
+        // Cell rendering is used to provide Users with a button to delete the selected card from their library of cards.
+
+        Cell: row => (
+          <button onClick={() => this.removeCards(row.original.name)}>Remove from Decklist</button>
+        ) 
       },
       ] 
+
+    // HTML for the component, including smaller HTML components and their corresponding functions listed above. This component contains all information that will
+    // populate the page, therefore the layout of the Deck List page is all below. Also, the ReactTable is populated with the information from the state
+    // once it is received for the User to see.
+
     return (
       <div>
         <ul className='nav'>
