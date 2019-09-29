@@ -92,8 +92,8 @@ app.post("/accounts", passport.authenticate('local-signup'));
 // Whenever a POST request to "/login" is sent from the front end, send username and passport information to Passport and use local-login strategy.
 
 app.post("/login", passport.authenticate('local-login', {
-    successRedirect:'/cardsearch',
-    failureRedirect:'/login'
+    successRedirect:'/commander',
+    failureRedirect:'/loginpage'
   })
 );
 
