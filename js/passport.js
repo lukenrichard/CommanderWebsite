@@ -17,13 +17,13 @@ var con = mysql.createConnection({
   // Allow serializeUser and deserializeUser functions to be accessible from outside this file.
 
   module.exports = function(passport) {
-      passport.serializeUser(function(username, done) {
-          done(null, username);
+      passport.serializeUser(function(User, done) {
+          done(null, User);
       });
 
-      passport.deserializeUser(function(username, done) {
-          con.query("SELECT * from accounts where username = '" + username + "'", function(err, rows) {
-              done(err, username);
+      passport.deserializeUser(function(User, done) {
+          con.query("SELECT * from accounts where username = '" + User.username + "'", function(err, rows) {
+              done(err, User);
           });
       });
   }

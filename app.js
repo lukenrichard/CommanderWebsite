@@ -93,7 +93,8 @@ app.post("/accounts", passport.authenticate('local-signup'));
 
 app.post("/login", passport.authenticate('local-login', {
     successRedirect:'/commander',
-    failureRedirect:'/loginpage'
+    failureRedirect:'/loginpage',
+    failureFlash: true
   })
 );
 
