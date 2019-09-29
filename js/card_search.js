@@ -4,17 +4,20 @@ import React, { Component } from "react";
 import ReactTable from "react-table";
 import "../styles.css";
 import ManaGenerator from "./mana_generator";
+import AddButton from "./add_button";
 import "react-table/react-table.css";
 
 export class CardSearch extends Component {
   constructor(props) {
     super(props);
+    this.addCards = this.addCards.bind(this);
     this.state = {
       array: [],
       items: [],
       suggestions: [],
       text: "",
-      user: ""
+      user: "",
+      errorBanner: false
     };
   }
 
@@ -37,7 +40,11 @@ export class CardSearch extends Component {
       headers: { "content-type": "application/json" },
       method: "POST",
       body: JSON.stringify(cardInput)
-    });
+    })
+    .then(res => {
+      return res.status;
+    })
+    .catch(() => this.setState({errorBanner: true}));
   }
 
   // This function puts together the User search query together for the Scryfall API and then gathers and stores that data in the state.
@@ -59,7 +66,8 @@ export class CardSearch extends Component {
         var cardArray = data.data;
         cardArray.toString();
         this.setState({ array: cardArray });
-      });
+      })
+      .catch(() => this.setState({errorBanner: true}));
   };
 
   // This function captures the User input when the text changes in any of the search bars on the page. It also helps filter the autocomplete suggestions that 
@@ -158,6 +166,13 @@ export class CardSearch extends Component {
 
   render() {
 
+    // If there is a catch error with any promises, display the error banner.
+
+    let errorBanner;
+    if (this.state.errorBanner == true){
+      errorBanner = <div className = 'errorbanner'>Something Went Wrong! Please reload.</div>;
+    }
+
     // If there is a User saved in the state, change the Login/Register button to a Logout button.
 
     var userButton = "Logout";
@@ -217,9 +232,8 @@ export class CardSearch extends Component {
         // Cell rendering used for the Add to Deck column to provide Users with an option to add desired card in table to their personal library of cards.
 
         Cell: row => (
-          <button onClick={() => this.addCards(row.original)}>
-            Add to Deck
-          </button>
+          <AddButton info={row.original} addCards={this.addCards}>
+          </AddButton>
         )
       }
     ];
@@ -238,6 +252,7 @@ export class CardSearch extends Component {
           <li className = 'login'><a href="/loginpage" onClick={() => this.logout()}>{userButton}</a></li>
           <li className = 'login'><p>Current User: {this.state.user}</p></li>
         </ul>
+        {errorBanner}
         <a className = "adsearch" href="/advancedsearch">Advanced Search</a>
         <div className="search-container">
           <input

@@ -16,7 +16,8 @@ export class DeckList extends Component {
       items: [],
       suggestions:[],
       text: "",
-      user: ""
+      user: "",
+      errorBanner: false
     };
   }
 
@@ -33,7 +34,8 @@ export class DeckList extends Component {
     .then(data => {
       data = data.filter(data => data.user == this.state.user);
       this.setState({ array: data });
-    });
+    })
+    .catch(() => {this.setState({errorBanner: true})});
   };
 
   // This function sends a DELETE request to the server to delete the desired card from the cards table.
@@ -47,8 +49,9 @@ export class DeckList extends Component {
       method: 'DELETE',
       body: JSON.stringify(cardInput)
     })
-    .then(res => res.text())
-    .then(res => console.log(res))
+    .then(res => {
+      this.retrieveCards();
+    }).catch(() => this.setState({errorBanner: true}));
   }
 
   // This function takes seven random cards from the entire User specific library of cards to allow the User to test and see if they have the correct balance of card types
@@ -87,7 +90,8 @@ export class DeckList extends Component {
     .then(data => {
       data = data.filter(data => data.user == this.state.user);
       this.setState({ array: data });
-    }); 
+    })
+    .catch(() => {this.setState({errorBanner: true})});
     
   }
 
@@ -106,10 +110,11 @@ export class DeckList extends Component {
     });
   }
 
-  // This function makes sure that the getUser() function runs every time a page is loaded.
+  // This function makes sure that the getUser() and retrieveCards() functions runs every time a page is loaded.
 
   componentDidMount() {
     this.getUser();
+    this.retrieveCards();
   }
 
   // This function sends a GET request to the server to logout the current User, it only works if there is a User saved in the state.
@@ -127,6 +132,13 @@ export class DeckList extends Component {
 
   render() {
   
+      // If there is a catch error with any promises, display the error banner.
+
+      let errorBanner;
+      if (this.state.errorBanner == true){
+        errorBanner = <div className = 'errorbanner'>Something Went Wrong! Please reload.</div>;
+      }
+
       // If there is a User saved in the state, change the Login/Register button to a Logout button.
 
       var userButton = "Logout";
@@ -204,6 +216,7 @@ export class DeckList extends Component {
           <li className = 'login'><a href="/loginpage" onClick={() => this.logout()}>{userButton}</a></li>
           <li className = 'login'><p>Current User: {this.state.user}</p></li>
         </ul>
+        {errorBanner}
         <div className="search-container">
           <button type="submit" onClick={() => this.retrieveCards()}>Retrieve Deck</button>
         </div>

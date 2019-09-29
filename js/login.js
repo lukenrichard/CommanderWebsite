@@ -106,6 +106,19 @@ export class Login extends Component {
 
   render() {
     
+    // If there is a catch error with any promises, display the error banner.
+
+    let errorBanner;
+    if (this.state.errorBanner == true){
+      errorBanner = <div className = 'errorbanner'>Something Went Wrong! Please reload.</div>;
+    }
+
+    // If there is an error with the username and password, show error banner.
+
+    if (this.state.loginBanner == true){
+      errorBanner = <div className = 'errorbanner'>Wrong Username/Password Combination!</div>;
+    }
+
     // If there is a User saved in the state, change the Login/Register button to a Logout button.
 
     var userButton = "Logout";
@@ -123,6 +136,7 @@ export class Login extends Component {
           <li className = 'login'><a class="active" href="/loginpage" onClick={() => this.logout()}>{userButton}</a></li>
           <li className = 'login'><p>Current User: {this.state.user}</p></li>
         </ul>
+        {errorBanner}
         <div className="login-container">
           <p>Username</p>
           <input type="text" placeholder="Username" id="username"/>

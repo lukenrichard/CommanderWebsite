@@ -14,7 +14,8 @@ export class CommanderButton extends Component {
       white: false,
       blue: false,
       black: false,
-      user: ""
+      user: "",
+      errorBanner: false
     };
   }
 
@@ -84,7 +85,8 @@ export class CommanderButton extends Component {
         var imageURL = String(data.image_uris.normal);
         this.setState({ commander: commanderName });
         this.setState({ image: imageURL });
-      });
+      })
+      .catch(() => {this.setState({errorBanner: true})});
   };
 
   // This function sends a GET request to the server for the current saved User and then recieves and stores the User in the state.
@@ -122,6 +124,13 @@ export class CommanderButton extends Component {
   }
 
   render() {
+
+    // If there is a catch error with any promises, display the error banner.
+
+    let errorBanner;
+    if (this.state.errorBanner == true){
+      errorBanner = <div className = 'errorbanner'>Something Went Wrong! Please reload.</div>;
+    }
 
     // If there is a User saved in the state, change the Login/Register button to a Logout button.
 
@@ -161,6 +170,7 @@ export class CommanderButton extends Component {
           <li className = 'login'><a href="/loginpage" onClick={() => this.logout()}>{userButton}</a></li>
           <li className = 'login'><p>Current User: {this.state.user}</p></li>
         </ul>
+        {errorBanner}
         <div className="flex-container">
           <div className = "sortby">
             <input type="checkbox" id="greenbox" onChange={() => this.greenSearch()} />

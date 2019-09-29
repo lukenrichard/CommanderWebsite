@@ -4,11 +4,13 @@ import React, { Component } from "react";
 import ReactTable from "react-table";
 import "../styles.css";
 import ManaGenerator from "./mana_generator";
+import AddButton from "./add_button";
 import "react-table/react-table.css";
 
 export class AdvancedCardSearch extends Component {
   constructor(props) {
     super(props);
+    this.addCards = this.addCards.bind(this);
     this.state = {
       array: [],
       items: [],
@@ -19,7 +21,8 @@ export class AdvancedCardSearch extends Component {
       red: false,
       white: false,
       blue: false,
-      black: false
+      black: false,
+      errorBanner: false
     };
   }
 
@@ -41,7 +44,11 @@ export class AdvancedCardSearch extends Component {
       headers: { "content-type": "application/json" },
       method: "POST",
       body: JSON.stringify(cardInput)
-    });
+    })
+    .then(res => {
+      return res.status;
+    })
+    .catch(() => this.setState({errorBanner: true}));
   }
 
   // These color search functions change the boolean value associated with each color to ensure that the User can only search for cards of their desired color.
@@ -132,7 +139,8 @@ export class AdvancedCardSearch extends Component {
         var cardArray = data.data;
         cardArray.toString();
         this.setState({ array: cardArray });
-      });
+      })
+      .catch(() => {this.setState({errorBanner: true})});
   };
 
   // This function captures the User input when the text changes in any of the search bars on the page. It also helps filter the autocomplete suggestions that 
@@ -204,6 +212,13 @@ export class AdvancedCardSearch extends Component {
 
   render() {
     
+    // If there is a catch error with any promises, display the error banner.
+
+    let errorBanner;
+    if (this.state.errorBanner == true){
+      errorBanner = <div className = 'errorbanner'>Something Went Wrong! Please reload.</div>;
+    }
+
     // If there is a User saved in the state, change the Login/Register button to a Logout button.
 
     var userButton = "Logout";
@@ -265,9 +280,8 @@ export class AdvancedCardSearch extends Component {
         // Cell rendering used for the Add to Deck column to provide Users with an option to add desired card in table to their personal library of cards.
 
         Cell: row => (
-          <button onClick={() => this.addCards(row.original)}>
-            Add to Deck
-          </button>
+          <AddButton info={row.original} addCards={this.addCards}>
+          </AddButton>
         )
       }
     ];
@@ -286,6 +300,7 @@ export class AdvancedCardSearch extends Component {
           <li className = 'login'><a href="/loginpage" onClick={() => this.logout()}>{userButton}</a></li>
           <li className = 'login'><p>Current User: {this.state.user}</p></li>
         </ul>
+        {errorBanner}
         <a className = "adsearch" href="/advancedsearch">Advanced Search</a>
         <div className = "sortby">
             <input type="checkbox" id="greenbox" onChange={() => this.greenSearch()} />
