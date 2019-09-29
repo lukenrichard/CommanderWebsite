@@ -13,7 +13,9 @@ export class Login extends Component {
       items: [],
       suggestions:[],
       text: "",
-      user: ""
+      user: "",
+      errorBanner: false,
+      loginBanner: false
     };
   }
 
