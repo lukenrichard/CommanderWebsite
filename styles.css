@@ -9,6 +9,12 @@ a.adsearch {
   margin-right: auto;
 }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .commanderbutton {
     margin: 30px;
     text-align: center;
@@ -93,7 +99,7 @@ div.tooltip:hover span{
   height: 800px;
 }
 
-.h3 {
+h3 {
   text-align: center;
 }
 
