@@ -17,7 +17,9 @@ export class CardSearch extends Component {
       suggestions: [],
       text: "",
       user: "",
-      errorBanner: false
+      errorBanner: false,
+      input: "Add to Deck",
+      isButtonDisabled: false
     };
   }
 
@@ -35,7 +37,6 @@ export class CardSearch extends Component {
       imageurl: cardArray.image_uris.normal,
       purchaseurl: cardArray.purchase_uris.tcgplayer
     };
-    console.log(cardInput);
     return fetch("/cards", {
       headers: { "content-type": "application/json" },
       method: "POST",
