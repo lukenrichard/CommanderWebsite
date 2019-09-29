@@ -34,7 +34,14 @@ export class Login extends Component {
       method: 'POST',
       body: JSON.stringify(accountInput)
     })
-  };
+     .then(req => {
+      if (req.url == "http://localhost:3000/loginpage"){
+        this.setState({loginBanner: true})
+      }
+      else{
+        window.location = req.url;
+      }
+  })};
 
   // This function allows unregistered users to create a new account.
 
