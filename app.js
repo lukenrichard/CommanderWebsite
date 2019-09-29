@@ -82,6 +82,7 @@ app.post("/cards", function(req, res) {
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("1 record inserted");
+    res.status(200).send(result);
   });
 });
 
@@ -110,7 +111,7 @@ app.get('/logout', (req, res) => {
 app.get("/cards", function(req, res) {
   con.query("SELECT * FROM cards", function (err, result, fields) {
     if (err) throw err;
-    res.send(result);
+    res.status(200).send(result);
   });
 });
 
@@ -119,7 +120,7 @@ app.get("/cards", function(req, res) {
 app.get("/accounts", function(req, res) {
   con.query("SELECT * FROM accounts", function (err, result, fields) {
     if (err) throw err;
-    res.send(result);
+    res.status(200).send(result);
   });
 });
 
@@ -130,6 +131,7 @@ app.delete("/cards", function(req, res) {
   con.query("DELETE FROM cards WHERE name = '" + String(req.body.name) + "'", function (err, result, fields) {
     if (err) throw err;
     console.log("Card Deleted");
+    res.status(200).send(result);
   });
 });
 
