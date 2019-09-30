@@ -217,9 +217,6 @@ export class DeckList extends Component {
           <li className = 'login'><p>Current User: {this.state.user}</p></li>
         </ul>
         {errorBanner}
-        <div className="search-container">
-          <button type="submit" onClick={() => this.retrieveCards()}>Retrieve Deck</button>
-        </div>
         <div className="decklist-container">
           <ReactTable data={this.state.array} columns={columns}>
           </ReactTable>

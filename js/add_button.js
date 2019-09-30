@@ -23,7 +23,6 @@ export class AddButton extends Component {
     .then((result) => {
 
     // If the status code for the promise is not 200, flag an error and show on button. Also disable the button from being pressed.
-    console.log(result);
     if(result != 200) { 
       this.setState({ isButtonDisabled: true, input: "Error!" });
     }

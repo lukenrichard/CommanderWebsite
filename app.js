@@ -57,7 +57,6 @@ con.connect(function(err) {
 // Whenever a GET request is sent to the server from the front end, ensure that the local User matches the user stored on the back end.
 
 app.get('*', function(req, res, next) {
-  console.log(req.user);
   res.locals.user = req.user || null;
   next();
 })
@@ -93,8 +92,8 @@ app.post("/accounts", passport.authenticate('local-signup'));
 // Whenever a POST request to "/login" is sent from the front end, send username and passport information to Passport and use local-login strategy.
 
 app.post("/login", passport.authenticate('local-login', {
-    successRedirect:'http://lukenrichard.com:3000/commander',
-    failureRedirect:'http://lukenrichard.com:3000/loginpage',
+    successRedirect:'http://lukenrichard.com/commander',
+    failureRedirect:'http://lukenrichard.com/loginpage',
     failureFlash: true
   })
 );
