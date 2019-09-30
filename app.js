@@ -92,8 +92,8 @@ app.post("/accounts", passport.authenticate('local-signup'));
 // Whenever a POST request to "/login" is sent from the front end, send username and passport information to Passport and use local-login strategy.
 
 app.post("/login", passport.authenticate('local-login', {
-    successRedirect:'http://lukenrichard.com:80/commander',
-    failureRedirect:'http://lukenrichard.com:80/loginpage',
+    successRedirect:'http://lukenrichard.com/commander',
+    failureRedirect:'http://lukenrichard.com/loginpage',
     failureFlash: true
   })
 );
@@ -166,6 +166,6 @@ app.get("/loginpage", function(req, res) {
 
 // Set up server to listen on PORT 3000.
 
-app.listen("3000", function() {
+app.listen("80", function() {
   console.log("Website online.");
 });

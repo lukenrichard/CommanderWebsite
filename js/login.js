@@ -38,7 +38,7 @@ export class Login extends Component {
     })
      .then(req => {
        console.log(req.url);
-      if (req.url == "http://lukenrichard.com:80/loginpage"){
+      if (req.url == "http://lukenrichard.com/loginpage"){
         this.setState({loginBanner: true})
       }
       else{
