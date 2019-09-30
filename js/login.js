@@ -37,7 +37,7 @@ export class Login extends Component {
       body: JSON.stringify(accountInput)
     })
      .then(req => {
-      if (req.url == "http://lukenrichard.com:3000/loginpage"){
+      if (req.url == "http://lukenrichard.com:80/loginpage"){
         this.setState({loginBanner: true})
       }
       else{
